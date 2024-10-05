@@ -15,6 +15,9 @@ class Abstraction {
     }
 }
 
+// client -> [Abstraction(制御層) -> implementation(制御のためのinterface)] の依存関係
+// []の部分がbridgeと呼ばれる
+
 class ConcreteImplementationA implements Implementation {
     public operationImplementation(): string {
         return `Operation in ConcreteImplementationA`
