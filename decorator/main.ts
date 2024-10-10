@@ -22,3 +22,34 @@ class Decorator implements Component {
         return this.component.operation()
     }
 }
+
+class ConcreteDecoratorA extends Decorator {
+    /**
+     * operation
+     */
+    public operation(): string {
+        return `ConcreteDecoratorA(${super.operation()})`
+    }
+}
+
+class ConcreteDecoratorB extends Decorator {
+    /**
+     * operation
+     */
+    public operation(): string {
+        return `ConcreteDecoratorB(${super.operation()})`
+    }
+}
+
+function clientCode(component:Component) {
+    console.log(`RESULT: ${component.operation()}`)
+}
+
+const simpleComponent = new ConcretComponent();
+clientCode(simpleComponent)
+
+
+const decorator2 = new ConcreteDecoratorB(
+    new ConcreteDecoratorA(simpleComponent)
+)
+clientCode(decorator2)
