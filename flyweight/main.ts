@@ -62,3 +62,7 @@ function addCarToPoliceDatabase(ff:FlyweightFactory, plates: string, owner: stri
     )
     flyweight.operation([plates, owner])
 }
+
+addCarToPoliceDatabase(factory, "hoga", "Taro", "hoga_brand","hoge_model", "black")
+addCarToPoliceDatabase(factory, "hoga", "Satoshi", "hoga_brand","hoge_model", "black")
+factory.listFlyweight()
