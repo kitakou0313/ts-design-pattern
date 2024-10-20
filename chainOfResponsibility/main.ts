@@ -4,7 +4,7 @@ interface Handler<Request = string, Result = string>{
 }
 
 abstract class AbstractHandler implements Handler {
-    private nextHandler: Handler
+    private nextHandler: Handler | null = null
 
     /**
      * setNext
@@ -19,6 +19,7 @@ abstract class AbstractHandler implements Handler {
      * handle
      */
     public handle(request: string):string {
+        // ここでnextHandlerがnull型の値ではないことを確認
         if (this.nextHandler) {
             return this.nextHandler.handle(request)
         }
@@ -44,14 +45,26 @@ class SquirreHandler extends AbstractHandler {
      */
     public handle(request: string):string {
         if (request === "Nuts") {
-            return typeof this + `I will eat ${request}`
+            return typeof this + `:I will eat ${request}`
+        }
+        return super.handle(request)
+    }
+}
+
+class DogHandler extends AbstractHandler {
+    /**
+     * handle
+     */
+    public handle(request: string): string {
+        if (request === "MeatBall") {
+            return typeof this + `: I will eat ${request}`
         }
         return super.handle(request)
     }
 }
 
 function clientCode(handler:Handler) {
-    const foods = ["Nuts", "Banana"]
+    const foods = ["Nuts", "MeatBall" , "Banana", "Pan"]
     for (const food of foods) {
         const result = handler.handle(food)
         console.log(
@@ -62,6 +75,7 @@ function clientCode(handler:Handler) {
 
 const monkey = new MonkeyHandler()
 const squirre = new SquirreHandler()
-monkey.setNext(squirre)
+const dog = new DogHandler()
+monkey.setNext(squirre).setNext(dog)
 
 clientCode(monkey)
