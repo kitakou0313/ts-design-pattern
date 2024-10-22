@@ -59,3 +59,53 @@ class ComplexCommand implements Command {
         this.receiver.doSomethingElse(this.b)
     }
 }
+
+class Invoker {
+    private onStart: Command | null = null
+    private onFinish: Command | null = null
+
+    /**
+     * setOnStart
+     */
+    public setOnStart(command:Command): void {
+        this.onStart = command
+    }
+
+    /**
+     * setOnFinish
+     */
+    public setOnFinish(command:Command):void {
+        this.onFinish = command
+    }
+
+    // ユーザー定義の型ガードを使用
+    // この関数の返すbool値によって与えた引数がCommand型か判定できる
+    private isCommnad(object:any): object is Command {
+        return object.execute !== undefined
+    }
+
+    /**
+     * doSomethingImportant
+     */
+    public doSomethingImportant():void {
+        console.log(typeof this + ":I will do something onStart")
+        if (this.isCommnad(this.onStart)) {
+            this.onStart.execute()
+        }
+
+        console.log(typeof this + ":I will do something onFinish")
+        if (this.isCommnad(this.onFinish)) {
+            this.onFinish.execute()
+        }
+    }
+}
+
+const invoker =  new Invoker()
+invoker.setOnStart(new SimpleCommand("Say hi!"))
+const receiver = new Receiver();
+invoker.setOnFinish(new ComplexCommand(receiver, 
+    "Send email",
+    "Save report"
+))
+
+invoker.doSomethingImportant()
