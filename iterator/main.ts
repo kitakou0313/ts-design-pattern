@@ -87,7 +87,7 @@ class AlphabeticalOrderIterator implements OriIterator<string> {
 
     public valid(): boolean {
         if (this.reverse) {
-            return this.position > 0
+            return this.position >= 0
         }
         return this.position < this.collection.getCount()
     }
@@ -97,8 +97,10 @@ const collection = new WordCollection();
 collection.addItem("First")
 collection.addItem("Second")
 collection.addItem("Third")
+collection.addItem("Four")
 
-const iterator = collection.getReverseIterator()
+
+const iterator = collection.getIterator()
 while (iterator.valid()) {
     console.log(iterator.next())
 }
