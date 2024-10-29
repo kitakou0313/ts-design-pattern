@@ -8,7 +8,25 @@ class ConcreteMediator implements Mediator {
 
     constructor(c1: Component1, c2: Component2) {
         this.component1 = c1
-        this.component1.set
+        this.component1.setMediator(this)
+
+        this.component2 = c2
+        this.component2.setMediator(this)
+    }
+
+    /**
+     * notify
+     */
+    public notify(sender:object, event:string): void {
+        if (event === "A") {
+            console.log("Mediator reacts on A, triggers following operation")
+            this.component2.doC()
+        }
+        if (event === "D") {
+            console.log("Mediator reacts on D, triggers following operation")
+            this.component1.doB()
+            this.component2.doC()
+        }
     }
 }
 
@@ -25,6 +43,12 @@ class BaseComponent {
     public setMediator(mediator: Mediator) {
         this.mediator = mediator
     }
+
+    protected notify(sender:object, event:string) {
+        if (typeof this.mediator !== "undefined") {
+            this.mediator.notify(sender, event)
+        }
+    }
 }
 
 class Component1 extends BaseComponent {
@@ -33,7 +57,7 @@ class Component1 extends BaseComponent {
      */
     public doA(): void {
         console.log("Component 1 does A")
-        this.mediator.notify(this, "A")
+        this.notify(this, "A")
     }
 
     /**
@@ -41,7 +65,7 @@ class Component1 extends BaseComponent {
      */
     public doB():void {
         console.log("Component 1 does B")
-        this.mediator.notify(this, "B")
+        this.notify(this, "B")
     }
 }
 
@@ -51,7 +75,7 @@ class Component2 extends BaseComponent {
      */
     public doC(): void {
         console.log("Component 2 does C")
-        this.mediator.notify(this, "C")
+        this.notify(this, "C")
     }
 
     /**
@@ -59,13 +83,15 @@ class Component2 extends BaseComponent {
      */
     public doD():void {
         console.log("Component 2 does D")
-        this.mediator.notify(this, "D")
+        this.notify(this, "D")
     }
 }
 
-class ConcreteMediator implements Mediator {
-    private component1: 
-    constructor(parameters) {
-        
-    }
-}
+const c1 = new Component1()
+const c2 = new Component2()
+const mediator = new ConcreteMediator(c1, c2)
+
+c1.doA()
+
+console.log()
+c2.doD()
