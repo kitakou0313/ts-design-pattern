@@ -32,3 +32,17 @@
     - MementoとOriginatorを用いたロジックの実装を担当する
 
 # 実装の流れ
+- Originatorの役割となるClassを特定する
+    - ソフトウェアが一つまたは数個のオブジェクトに依存しているか
+- Memento Classを定義
+    - Originator Classのfieldのサブセットとする
+    - 可能ならOriginator ClassのNested Classのfieldのサブセットとする
+        - 不可能な場合，空のMemento Intergace（全てのオブジェクトにマッチする）を定義する
+    - immutableとする
+        - コンストラクタで初期化する
+- OriginatorにMemento Classを生成するメソッドを定義する
+    - コンストラクタで生成
+    - 返り値は上で定義したNested ClassまたはInterface
+- Originator ClassにMementoから状態を戻すメソッドを定義する
+- CareTaker Classを編集し，復元などを実装する
+    - 状態の生成，復元を行うタイミングを把握しておく
