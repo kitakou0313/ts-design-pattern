@@ -18,3 +18,16 @@ Obejctに状態によって振る舞いを変えさせるパターン
     - 状態遷移の際は参照するオブジェクトを切り替える
 
 # 実装の流れ
+- Contextとして振舞うClassを決める
+    - 状態に依存して処理を変えるクラス
+    - 状態に依存して処理が変わる処理が複数Classに分布する場合は集約した新しいClassを定義する
+- State Interfaceを定義する
+    - 状態に依存して変化する処理をメソッドとして定義
+- 状態毎にState Interfaceを実装したClassを定義する
+    - 処理は元のクラスから移す
+    - 元のクラスのprivateなfieldに依存する場合
+        - publicにする
+        - State ClassをNestする
+        - 元のClassで処理をPublicにし，State実装クラスから呼び出す
+- Context ClassにState Interface実装クラスへの参照を持たせる + Setterを定義する
+- Context classの状態に依存していた各処理をState Interface実装クラスのメソッド呼び出しに変更する
