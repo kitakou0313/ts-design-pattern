@@ -1,5 +1,5 @@
 abstract class State {
-    protected context: Context
+    protected context: Context | null
 
     /**
      * setContext
@@ -8,7 +8,7 @@ abstract class State {
         this.context = context
     }
 
-    constructor(context:Context){
+    constructor(context:Context | null){
         this.context = context
     }
 
@@ -20,7 +20,10 @@ class ConcreteStateA extends State {
     public handle1(): void {
         console.log(`ConcreteStateA handles request1`)
         console.log(`ConcreteStateA wanto to change the state of the context`)
-        this.context.transitionTo(new ConcreteStateB(this.context))
+        
+        if (this.context !== null) {
+            this.context.transitionTo(new ConcreteStateB(this.context))        
+        }   
     }
 
     public handle2(): void {
@@ -32,7 +35,10 @@ class ConcreteStateB extends State {
     public handle1(): void {
         console.log(`ConcreteStateB handles request1`)
         console.log(`ConcreteStateB wanto to change the state of the context`)
-        this.context.transitionTo(new ConcreteStateA(this.context))
+        
+        if (this.context !== null) {
+            this.context.transitionTo(new ConcreteStateA(this.context))
+        }        
     }
 
     public handle2(): void {
@@ -41,7 +47,7 @@ class ConcreteStateB extends State {
 }
 
 class Context {
-    private state: State
+    private state: State | null = null
 
     /**
      * transitionTo
@@ -52,27 +58,25 @@ class Context {
         this.state.setContext(this)
     }
 
-    constructor(state: State){
-        console.log(`Context: Transition to ${(<any>state).constructor.name}`)
-        this.state = state
-        this.state.setContext(this)
-    }
-
     /**
      * request1
      */
     public request1():void {
-        this.state.handle1()
+        if (this.state !== null) {
+            this.state.handle1()    
+        }
     }
 
     /**
      * request2
      */
     public request2():void {
-        this.state.handle2()
+        if (this.state !== null) {
+            this.state.handle2()
+        }
     }
 }
 
-const context = new Context(new ConcreteStateA())
+const context = new Context(new ConcreteStateA());
 context.request1()
 context.request2()
