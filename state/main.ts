@@ -1,5 +1,5 @@
 abstract class State {
-    protected context: Context | null
+    protected context: Context | undefined = undefined
 
     /**
      * setContext
@@ -8,7 +8,7 @@ abstract class State {
         this.context = context
     }
 
-    constructor(context:Context | null){
+    constructor(context?:Context){
         this.context = context
     }
 
@@ -21,7 +21,7 @@ class ConcreteStateA extends State {
         console.log(`ConcreteStateA handles request1`)
         console.log(`ConcreteStateA wanto to change the state of the context`)
         
-        if (this.context !== null) {
+        if (typeof this.context !== "undefined") {
             this.context.transitionTo(new ConcreteStateB(this.context))        
         }   
     }
@@ -36,7 +36,7 @@ class ConcreteStateB extends State {
         console.log(`ConcreteStateB handles request1`)
         console.log(`ConcreteStateB wanto to change the state of the context`)
         
-        if (this.context !== null) {
+        if (typeof this.context !== "undefined") {
             this.context.transitionTo(new ConcreteStateA(this.context))
         }        
     }
@@ -47,7 +47,7 @@ class ConcreteStateB extends State {
 }
 
 class Context {
-    private state: State | null = null
+    private state: State
 
     /**
      * transitionTo
@@ -58,25 +58,25 @@ class Context {
         this.state.setContext(this)
     }
 
+    constructor(state: State){
+        this.state = state
+    }
+
     /**
      * request1
      */
     public request1():void {
-        if (this.state !== null) {
-            this.state.handle1()    
-        }
+        this.state.handle1()
     }
 
     /**
      * request2
      */
     public request2():void {
-        if (this.state !== null) {
-            this.state.handle2()
-        }
+        this.state.handle2()
     }
 }
 
-const context = new Context(new ConcreteStateA());
+const context = new Context(new ConcreteStateA(null));
 context.request1()
 context.request2()
