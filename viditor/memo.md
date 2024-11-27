@@ -17,3 +17,10 @@
     - 元クラスへの変更は最小になる
 
 ## 実装の流れ
+- Visitor interfaceを定義し，メソッドを定義する
+    - 具体的なクラス一つにつきメソッドを定義する
+- 受け入れる要素側（element class）にacceptance methodをもつinterfaceを定義する
+- element class毎にacceptance methodを実装する
+    - Visitor interfaceで引数を受け取る
+- Element class側に持たせられてない振る舞い毎にVisitor Classを実装する
+- Client 側でVisitor Classのインスタンスを作り，acceptance methodに渡す
