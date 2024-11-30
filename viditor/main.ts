@@ -50,6 +50,20 @@ class ConcreteVisitor1 implements Visitor {
     }
 }
 
+class ConcreteVisitor2 implements Visitor {
+    public visitConcreteComponentA(element: ConcreteComponentA): void {
+        console.log(
+            `${element.exclusiveMethodOfConcreteComponentA()} + ConcreteVisitor2`
+        )
+    }
+
+    public visitConcreteComponentB(element: ConcreteComponentB): void {
+        console.log(
+            `${element.specialMethodOfConcreteComponentB()} + ConcreteVisitor2`
+        )
+    }
+}
+
 function clientCode(components: ComponentInVisitorPattern[], visitor:Visitor) {
     for (const component of components) {
         component.accept(visitor)
@@ -63,3 +77,6 @@ const components = [
 
 const visitor1 = new ConcreteVisitor1()
 clientCode(components, visitor1)
+
+const visitor2 = new ConcreteVisitor2()
+clientCode(components, visitor2)
