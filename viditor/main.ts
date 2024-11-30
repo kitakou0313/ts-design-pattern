@@ -39,13 +39,13 @@ class ConcreteComponentB implements ComponentInVisitorPattern {
 class ConcreteVisitor1 implements Visitor {
     public visitConcreteComponentA(element: ConcreteComponentA): void {
         console.log(
-            `${element.exclusiveMethodOfConcreteComponentA()} + ConcreteVisitor1`
+            `${element.exclusiveMethodOfConcreteComponentA()} + ${ConcreteVisitor1.name}`
         )
     }
 
     public visitConcreteComponentB(element: ConcreteComponentB): void {
         console.log(
-            `${element.specialMethodOfConcreteComponentB()} + ConcreteVisitor1`
+            `${element.specialMethodOfConcreteComponentB()} + ${ConcreteVisitor1.name}`
         )
     }
 }
@@ -53,13 +53,13 @@ class ConcreteVisitor1 implements Visitor {
 class ConcreteVisitor2 implements Visitor {
     public visitConcreteComponentA(element: ConcreteComponentA): void {
         console.log(
-            `${element.exclusiveMethodOfConcreteComponentA()} + ConcreteVisitor2`
+            `${element.exclusiveMethodOfConcreteComponentA()} + ${ConcreteVisitor2.name}`
         )
     }
 
     public visitConcreteComponentB(element: ConcreteComponentB): void {
         console.log(
-            `${element.specialMethodOfConcreteComponentB()} + ConcreteVisitor2`
+            `${element.specialMethodOfConcreteComponentB()} + ${ConcreteVisitor2.name}`
         )
     }
 }
